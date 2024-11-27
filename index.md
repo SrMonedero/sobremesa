@@ -1,5 +1,5 @@
 ---
-layout: layout.vto
+layout: main.vto
 title: Sobremesa
 ---
 - [Duelos y Quebrantos](/r/duelos-y-quebrantos/)
