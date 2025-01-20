@@ -1,5 +1,4 @@
 import lume from "lume/mod.ts";
-import tailwind from "lume/plugins/tailwindcss.ts";
 import postcss from "lume/plugins/postcss.ts";
 import googleFonts from "lume/plugins/google_fonts.ts";
 import tailwindcss from "lume/plugins/tailwindcss.ts";
