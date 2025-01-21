@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="/tailwind.css">
+    <link rel="stylesheet" href="/fonts.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body class="">
+    {{ include "./header.vto" { title: "SOBREMESA", bg: "bg-emerald-700" } }}
+    {{ include "./header.vto" { title:  post.title , bg: "bg-amber-500" } }}
+    <div class="flex flex-col items-center justify-center  py-2">
+      <h2 class="text-2xl font-bold">¿Qué es?</h2>
+      <div class="w-full max-w-2xl">
+        {{ description }}
+      </div>
+      <h2 class="text-2xl font-bold">Origen</h2>
+      <div class="w-full max-w-2xl">
+        {{ origin }}
+      </div>
+    </div>
+  </body>
+</html>

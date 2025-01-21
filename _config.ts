@@ -18,6 +18,7 @@ site.use(tailwindcss({
     theme: {
       fontFamily: {
         serif: ["Cherry Bomb One", "serif"],
+        sans: ["Inter", "sans-serif"],
       },
     },
   },

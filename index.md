@@ -1,6 +1,6 @@
 ---
 layout: main.vto
 title: Sobremesa
+bg: bg-emerald-700
 ---
-- [Duelos y Quebrantos](/r/duelos-y-quebrantos/)
-- [Tortilla Española](/r/tortilla-espanola/)
+[Pilpil](/p/pilpil/) · [Calçots](/p/calcot/)
