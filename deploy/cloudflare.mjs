@@ -6,14 +6,14 @@
 //                                GitHub secrets
 //
 // It runs on Quique's personal Cloudflare account (the one the token belongs
-// to). Until DOMAIN is set below, the site is at <project>.pages.dev and the
-// photos at the bucket's r2.dev address; with DOMAIN, they move to it and
-// media.<DOMAIN>.
+// to). The site is at HOST and the photos at MEDIA_HOST, both in the
+// quique.info zone (one level deep, so the zone's certificate covers them).
+// <project>.pages.dev keeps working too.
 //
 // Needs two tokens in ~/.config/sobremesa/:
 //   cloudflare-token  Account: Cloudflare Pages Edit, Workers R2 Storage Edit,
 //                     Access: Apps and Policies Edit; User: API Tokens Edit
-//                     (plus Zone: DNS Edit on DOMAIN once there is one). Only
+//                     Zone: DNS Edit on quique.info. Only
 //                     used here: it mints the two narrow tokens the site runs
 //                     with (deploy and R2).
 //   github-token      fine-grained, SrMonedero/sobremesa only: Contents read
@@ -25,8 +25,9 @@ import { homedir } from 'node:os';
 import path from 'node:path';
 
 const PROJECT = 'sobremesa';
-// The site's domain, once it is a zone in this account.
-const DOMAIN = null;
+const ZONE = 'quique.info';
+const HOST = 'sobremesa.quique.info';
+const MEDIA_HOST = 'fotos-sobremesa.quique.info';
 const BUCKET = 'sobremesa-media';
 const REPO = 'SrMonedero/sobremesa';
 // Who may open the admin. The rest of the site is public.
@@ -83,8 +84,8 @@ async function main() {
   if (accounts.length !== 1) throw new Error(`The token reaches ${accounts.length} accounts; it must reach only one`);
   const ACCOUNT = accounts[0].id;
   console.log(`Account: ${accounts[0].name}`);
-  const zone = DOMAIN ? (await cf('GET', `/zones?name=${DOMAIN}`))[0] : null;
-  if (DOMAIN && !zone) throw new Error(`Zone ${DOMAIN} not in this account`);
+  const [zone] = await cf('GET', `/zones?name=${ZONE}`);
+  if (!zone) throw new Error(`Zone ${ZONE} not in this account`);
 
   step(`Pages project ${PROJECT}`);
   let project = await cf('GET', `/accounts/${ACCOUNT}/pages/projects/${PROJECT}`).catch((e) => (e.status === 404 ? null : Promise.reject(e)));
@@ -93,7 +94,7 @@ async function main() {
   // pages.dev names are global: a taken name gets a suffix.
   const PAGES_DOMAIN = project.subdomain;
   console.log(`  ${PAGES_DOMAIN}`);
-  const ADMIN_ORIGINS = [`https://${PAGES_DOMAIN}`, ...(DOMAIN ? [`https://${DOMAIN}`, `https://www.${DOMAIN}`] : [])];
+  const ADMIN_ORIGINS = [`https://${HOST}`, `https://${PAGES_DOMAIN}`];
 
   step(`R2 bucket ${BUCKET}`);
   const buckets = (await cf('GET', `/accounts/${ACCOUNT}/r2/buckets`)).buckets.map((b) => b.name);
@@ -105,17 +106,11 @@ async function main() {
     rules: [{ allowed: { origins: ADMIN_ORIGINS, methods: ['PUT'], headers: ['content-type'] }, maxAgeSeconds: 3600 }],
   });
 
-  let media;
-  if (zone) {
-    media = `media.${DOMAIN}`;
-    step(`Media address ${media}`);
-    const domains = (await cf('GET', `/accounts/${ACCOUNT}/r2/buckets/${BUCKET}/domains/custom`)).domains ?? [];
-    if (domains.some((d) => d.domain === media)) console.log('  exists');
-    else await cf('POST', `/accounts/${ACCOUNT}/r2/buckets/${BUCKET}/domains/custom`, { domain: media, zoneId: zone.id, enabled: true, minTLS: '1.2' });
-  } else {
-    step('Media address (the bucket\'s r2.dev, until there is a domain)');
-    media = (await cf('PUT', `/accounts/${ACCOUNT}/r2/buckets/${BUCKET}/domains/managed`, { enabled: true })).domain;
-  }
+  step(`Photos at ${MEDIA_HOST}`);
+  const domains = (await cf('GET', `/accounts/${ACCOUNT}/r2/buckets/${BUCKET}/domains/custom`)).domains ?? [];
+  if (domains.some((d) => d.domain === MEDIA_HOST)) console.log('  exists');
+  else await cf('POST', `/accounts/${ACCOUNT}/r2/buckets/${BUCKET}/domains/custom`, { domain: MEDIA_HOST, zoneId: zone.id, enabled: true, minTLS: '1.2' });
+  const media = MEDIA_HOST;
   const MEDIA_BASE = `https://${media}`;
   console.log(`  ${MEDIA_BASE}`);
 
@@ -151,7 +146,7 @@ async function main() {
   policy = policy ? await cf('PUT', `/accounts/${ACCOUNT}/access/policies/${policy.id}`, policyBody) : await cf('POST', `/accounts/${ACCOUNT}/access/policies`, policyBody);
   // Only the admin and its API are private, on every address the site has
   // (each deployment also gets its own <hash>.<project>.pages.dev).
-  const hosts = [PAGES_DOMAIN, `*.${PAGES_DOMAIN}`, ...(DOMAIN ? [DOMAIN, `www.${DOMAIN}`] : [])].flatMap((h) => [`${h}/admin`, `${h}/api/admin`]);
+  const hosts = [HOST, PAGES_DOMAIN, `*.${PAGES_DOMAIN}`].flatMap((h) => [`${h}/admin`, `${h}/api/admin`]);
   const appBody = {
     name: ACCESS_APP,
     type: 'self_hosted',
@@ -188,18 +183,13 @@ async function main() {
   gh(['variable', 'set', 'PAGES_PROJECT', '--repo', REPO, '--body', PROJECT]);
   gh(['variable', 'set', 'MEDIA_BASE', '--repo', REPO, '--body', MEDIA_BASE]);
 
-  if (zone) {
-    step(`${DOMAIN} and www.${DOMAIN} → Pages`);
-    const attached = await cf('GET', `/accounts/${ACCOUNT}/pages/projects/${PROJECT}/domains`);
-    for (const name of [DOMAIN, `www.${DOMAIN}`]) {
-      if (!attached.some((d) => d.name === name)) await cf('POST', `/accounts/${ACCOUNT}/pages/projects/${PROJECT}/domains`, { name });
-      const [record] = await cf('GET', `/zones/${zone.id}/dns_records?name=${name}`);
-      const body = { type: 'CNAME', name, content: PAGES_DOMAIN, proxied: true, comment: 'Sobremesa on Cloudflare Pages' };
-      if (record && record.content !== PAGES_DOMAIN) throw new Error(`${name} points at ${record.content}: check it before replacing it`);
-      if (!record) await cf('POST', `/zones/${zone.id}/dns_records`, body);
-      console.log(`  ${name} CNAME ${PAGES_DOMAIN}`);
-    }
-  }
+  step(`${HOST} → Pages`);
+  const attached = await cf('GET', `/accounts/${ACCOUNT}/pages/projects/${PROJECT}/domains`);
+  if (!attached.some((d) => d.name === HOST)) await cf('POST', `/accounts/${ACCOUNT}/pages/projects/${PROJECT}/domains`, { name: HOST });
+  const [record] = await cf('GET', `/zones/${zone.id}/dns_records?name=${HOST}`);
+  if (record && record.content !== PAGES_DOMAIN) throw new Error(`${HOST} points at ${record.content}: check it before replacing it`);
+  if (!record) await cf('POST', `/zones/${zone.id}/dns_records`, { type: 'CNAME', name: HOST, content: PAGES_DOMAIN, proxied: true, comment: 'Sobremesa on Cloudflare Pages' });
+  console.log(`  ${HOST} CNAME ${PAGES_DOMAIN}`);
   console.log('\nDone.');
 }
 
