@@ -1,22 +1,102 @@
 [
-  { "slug": "andalucia", "name": "Andalucía", "intro": "" },
-  { "slug": "aragon", "name": "Aragón", "intro": "" },
-  { "slug": "asturias", "name": "Asturias", "intro": "" },
-  { "slug": "baleares", "name": "Islas Baleares", "intro": "" },
-  { "slug": "canarias", "name": "Canarias", "intro": "" },
-  { "slug": "cantabria", "name": "Cantabria", "intro": "" },
-  { "slug": "castilla-la-mancha", "name": "Castilla-La Mancha", "intro": "" },
-  { "slug": "castilla-y-leon", "name": "Castilla y León", "intro": "" },
-  { "slug": "cataluna", "name": "Cataluña", "intro": "" },
-  { "slug": "extremadura", "name": "Extremadura", "intro": "" },
-  { "slug": "galicia", "name": "Galicia", "intro": "" },
-  { "slug": "la-rioja", "name": "La Rioja", "intro": "" },
-  { "slug": "madrid", "name": "Comunidad de Madrid", "intro": "" },
-  { "slug": "murcia", "name": "Región de Murcia", "intro": "" },
-  { "slug": "navarra", "name": "Navarra", "intro": "" },
-  { "slug": "pais-vasco", "name": "País Vasco", "intro": "" },
-  { "slug": "valencia", "name": "Comunitat Valenciana", "intro": "" },
-  { "slug": "ceuta", "name": "Ceuta", "intro": "" },
-  { "slug": "melilla", "name": "Melilla", "intro": "" },
-  { "slug": "espana", "name": "Toda España", "intro": "Platos que se comen en todas partes y que ninguna región reclama en exclusiva." }
+  {
+    "slug": "andalucia",
+    "name": "Andalucía",
+    "intro": ""
+  },
+  {
+    "slug": "aragon",
+    "name": "Aragón",
+    "intro": ""
+  },
+  {
+    "slug": "asturias",
+    "name": "Asturias",
+    "intro": ""
+  },
+  {
+    "slug": "baleares",
+    "name": "Islas Baleares",
+    "intro": ""
+  },
+  {
+    "slug": "canarias",
+    "name": "Canarias",
+    "intro": ""
+  },
+  {
+    "slug": "cantabria",
+    "name": "Cantabria",
+    "intro": ""
+  },
+  {
+    "slug": "castilla-la-mancha",
+    "name": "Castilla-La Mancha",
+    "intro": ""
+  },
+  {
+    "slug": "castilla-y-leon",
+    "name": "Castilla y León",
+    "intro": ""
+  },
+  {
+    "slug": "cataluna",
+    "name": "Cataluña",
+    "intro": ""
+  },
+  {
+    "slug": "extremadura",
+    "name": "Extremadura",
+    "intro": ""
+  },
+  {
+    "slug": "galicia",
+    "name": "Galicia",
+    "intro": ""
+  },
+  {
+    "slug": "la-rioja",
+    "name": "La Rioja",
+    "intro": ""
+  },
+  {
+    "slug": "madrid",
+    "name": "Comunidad de Madrid",
+    "intro": ""
+  },
+  {
+    "slug": "murcia",
+    "name": "Región de Murcia",
+    "intro": ""
+  },
+  {
+    "slug": "navarra",
+    "name": "Navarra",
+    "intro": ""
+  },
+  {
+    "slug": "pais-vasco",
+    "name": "País Vasco",
+    "intro": ""
+  },
+  {
+    "slug": "valencia",
+    "name": "Comunitat Valenciana",
+    "intro": ""
+  },
+  {
+    "slug": "ceuta",
+    "name": "Ceuta",
+    "intro": ""
+  },
+  {
+    "slug": "melilla",
+    "name": "Melilla",
+    "intro": ""
+  },
+  {
+    "slug": "espana",
+    "name": "Toda España",
+    "intro": "Platos que se comen en todas partes y que ninguna región reclama en exclusiva."
+  }
 ]

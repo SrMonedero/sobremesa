@@ -3,13 +3,18 @@
     "slug": "pilpil",
     "name": "Pilpil",
     "kind": "tecnica",
-    "regions": ["pais-vasco"],
+    "regions": [
+      "pais-vasco"
+    ],
     "place": "",
     "summary": "Emulsión de aceite de oliva y la gelatina del bacalao.",
     "description": "El pilpil es una técnica tradicional de la cocina vasca que se utiliza principalmente para preparar pescados, sobre todo el bacalao al pilpil. Consiste en emulsionar el aceite de oliva con la gelatina que suelta el pescado durante la cocción, creando una salsa suave, untuosa y brillante. Los ingredientes básicos son pocos: bacalao, aceite de oliva, ajo y guindilla.",
     "origin": "El bacalao ha sido un ingrediente esencial en el País Vasco desde hace siglos, sobre todo en Cuaresma y en épocas de escasez. La técnica surgió de la necesidad de aprovechar al máximo ingredientes humildes.",
     "fact": "Una de las teorías más extendidas dice que el nombre imita el sonido burbujeante de la salsa al cocinarse lentamente.",
-    "tags": ["bacalao", "salsa"],
+    "tags": [
+      "bacalao",
+      "salsa"
+    ],
     "photo": null,
     "recipe": null,
     "draft": false
@@ -18,13 +23,19 @@
     "slug": "calcots",
     "name": "Calçots",
     "kind": "plato",
-    "regions": ["cataluna"],
+    "regions": [
+      "cataluna"
+    ],
     "place": "Alt Camp, Tarragona",
     "summary": "Cebollas tiernas asadas a la brasa con salsa romesco o salvitxada.",
     "description": "Los calçots son un tipo de cebolla tierna y alargada que se asa a la brasa y se come con salsa romesco o salvitxada. Suelen servirse en una calçotada, una comida festiva en la que los calçots son el plato principal, seguidos de carne a la brasa. Al comerlos, la capa exterior quemada se retira con las manos para dejar al descubierto el interior blanco, tierno y dulce.",
     "origin": "Tienen su origen en la comarca del Alt Camp, en Tarragona. La tradición se atribuye a un agricultor de Valls conocido como Xat de Benaiges, a finales del siglo XIX: al cubrir las cebollas con tierra mientras crecían («calçar» en catalán, de ahí el nombre), estas salían alargadas y más suaves.",
     "fact": "Se comen con babero: la salsa mancha y los dedos acaban negros de ceniza.",
-    "tags": ["verdura", "brasa", "invierno"],
+    "tags": [
+      "verdura",
+      "brasa",
+      "invierno"
+    ],
     "photo": null,
     "recipe": null,
     "draft": false
@@ -33,13 +44,19 @@
     "slug": "tortilla-espanola",
     "name": "Tortilla española",
     "kind": "plato",
-    "regions": ["espana"],
+    "regions": [
+      "espana"
+    ],
     "place": "",
     "summary": "Huevo y patata, con o sin cebolla.",
     "description": "La tortilla de patatas es un plato de huevo batido y patata frita en aceite de oliva, cuajados juntos en la sartén. Se come caliente o a temperatura ambiente, en pincho, en bocadillo o como plato. La cebolla es opcional y divide a medio país.",
     "origin": "",
     "fact": "Cuanto menos se cuaja, más jugosa queda.",
-    "tags": ["huevo", "patata", "tapa"],
+    "tags": [
+      "huevo",
+      "patata",
+      "tapa"
+    ],
     "photo": null,
     "recipe": {
       "serves": "4",
@@ -69,13 +86,19 @@
     "slug": "duelos-y-quebrantos",
     "name": "Duelos y quebrantos",
     "kind": "plato",
-    "regions": ["castilla-la-mancha"],
+    "regions": [
+      "castilla-la-mancha"
+    ],
     "place": "La Mancha",
     "summary": "Huevos revueltos con chorizo y tocino o jamón.",
     "description": "Revuelto de huevos con chorizo y algo de cerdo (tocino, panceta o jamón), cuajado poco para que quede jugoso. Se acompaña de pan.",
     "origin": "Es el plato que come don Quijote los sábados en el primer capítulo de la novela de Cervantes.",
     "fact": "",
-    "tags": ["huevo", "cerdo", "Quijote"],
+    "tags": [
+      "huevo",
+      "cerdo",
+      "Quijote"
+    ],
     "photo": null,
     "recipe": {
       "serves": "2",
@@ -102,13 +125,19 @@
     "slug": "fabada",
     "name": "Fabada asturiana",
     "kind": "plato",
-    "regions": ["asturias"],
+    "regions": [
+      "asturias"
+    ],
     "place": "",
     "summary": "Fabes guisadas con chorizo, morcilla, lacón y tocino.",
     "description": "Guiso de fabes (alubias blancas grandes) cocidas lentamente con el compango: chorizo, morcilla asturiana, lacón y tocino. Se cuece a fuego suave y se «asusta» con agua fría para que la piel de la faba no se rompa.",
     "origin": "",
     "fact": "Al conjunto de embutidos que acompaña a las fabes se le llama compango.",
-    "tags": ["legumbre", "cuchara", "invierno"],
+    "tags": [
+      "legumbre",
+      "cuchara",
+      "invierno"
+    ],
     "photo": null,
     "recipe": null,
     "draft": false
@@ -117,13 +146,19 @@
     "slug": "salmorejo",
     "name": "Salmorejo",
     "kind": "plato",
-    "regions": ["andalucia"],
+    "regions": [
+      "andalucia"
+    ],
     "place": "Córdoba",
     "summary": "Crema fría de tomate, pan, aceite y ajo.",
     "description": "Crema espesa de tomate triturado con miga de pan, aceite de oliva virgen extra, ajo y sal. Se sirve frío, con huevo duro y jamón picados por encima.",
     "origin": "",
     "fact": "Es más espeso que el gazpacho: se come con cuchara y aguanta el huevo encima.",
-    "tags": ["tomate", "frío", "verano"],
+    "tags": [
+      "tomate",
+      "frío",
+      "verano"
+    ],
     "photo": null,
     "recipe": null,
     "draft": false
@@ -132,13 +167,18 @@
     "slug": "pulpo-a-feira",
     "name": "Pulpo á feira",
     "kind": "plato",
-    "regions": ["galicia"],
+    "regions": [
+      "galicia"
+    ],
     "place": "",
     "summary": "Pulpo cocido con pimentón, sal gruesa y aceite, sobre plato de madera.",
     "description": "Pulpo cocido en caldero de cobre, cortado con tijeras en rodajas y servido sobre un plato de madera con sal gruesa, pimentón y aceite de oliva. Suele acompañarse de cachelos (patatas cocidas).",
     "origin": "Su nombre viene de las ferias de los pueblos gallegos, donde las pulpeiras lo cocían y servían.",
     "fact": "Antes de cocerlo se «asusta»: se mete y saca del agua hirviendo varias veces para que la piel no se despegue.",
-    "tags": ["marisco", "feria"],
+    "tags": [
+      "marisco",
+      "feria"
+    ],
     "photo": null,
     "recipe": null,
     "draft": false
@@ -147,13 +187,18 @@
     "slug": "paella-valenciana",
     "name": "Paella valenciana",
     "kind": "plato",
-    "regions": ["valencia"],
+    "regions": [
+      "valencia"
+    ],
     "place": "",
     "summary": "Arroz seco con pollo, conejo, judía verde y garrofó.",
     "description": "Arroz seco cocinado en paella (la sartén ancha y plana que da nombre al plato) con pollo, conejo, judía verde plana, garrofó, tomate, aceite, azafrán y romero. Tradicionalmente se hace a leña.",
     "origin": "",
     "fact": "El socarrat es la capa de arroz tostado que queda pegada al fondo, y es la parte más disputada.",
-    "tags": ["arroz", "domingo"],
+    "tags": [
+      "arroz",
+      "domingo"
+    ],
     "photo": null,
     "recipe": null,
     "draft": false
@@ -162,13 +207,19 @@
     "slug": "cocido-madrileno",
     "name": "Cocido madrileño",
     "kind": "plato",
-    "regions": ["madrid"],
+    "regions": [
+      "madrid"
+    ],
     "place": "",
     "summary": "Garbanzos, verduras y carnes, servido en tres vuelcos.",
     "description": "Guiso de garbanzos con verduras, carnes y embutidos. Se sirve en tres vuelcos: primero la sopa con fideos, después los garbanzos con las verduras y, por último, las carnes.",
     "origin": "",
     "fact": "",
-    "tags": ["legumbre", "cuchara", "invierno"],
+    "tags": [
+      "legumbre",
+      "cuchara",
+      "invierno"
+    ],
     "photo": null,
     "recipe": null,
     "draft": false
@@ -177,13 +228,18 @@
     "slug": "migas-extremenas",
     "name": "Migas extremeñas",
     "kind": "plato",
-    "regions": ["extremadura"],
+    "regions": [
+      "extremadura"
+    ],
     "place": "",
     "summary": "Pan del día anterior frito con ajo, panceta y chorizo.",
     "description": "Pan duro desmigado, humedecido y frito en aceite con ajo, panceta y chorizo, removiendo hasta que queda suelto y dorado. Plato de pastores para aprovechar el pan.",
     "origin": "",
     "fact": "",
-    "tags": ["pan", "aprovechamiento"],
+    "tags": [
+      "pan",
+      "aprovechamiento"
+    ],
     "photo": null,
     "recipe": null,
     "draft": false
@@ -192,13 +248,18 @@
     "slug": "papas-arrugadas",
     "name": "Papas arrugadas",
     "kind": "tapa",
-    "regions": ["canarias"],
+    "regions": [
+      "canarias"
+    ],
     "place": "",
     "summary": "Papas pequeñas cocidas con mucha sal, con mojo rojo y verde.",
     "description": "Papas pequeñas cocidas con piel en agua muy salada hasta que el agua se evapora y la piel se arruga y queda cubierta de sal. Se acompañan de mojo picón (rojo) y mojo verde.",
     "origin": "",
     "fact": "",
-    "tags": ["patata", "mojo"],
+    "tags": [
+      "patata",
+      "mojo"
+    ],
     "photo": null,
     "recipe": null,
     "draft": false
@@ -207,13 +268,18 @@
     "slug": "ensaimada",
     "name": "Ensaimada",
     "kind": "dulce",
-    "regions": ["baleares"],
+    "regions": [
+      "baleares"
+    ],
     "place": "Mallorca",
     "summary": "Espiral de masa hojaldrada con manteca de cerdo.",
     "description": "Bollo en espiral hecho con masa fermentada estirada muy fina y untada con manteca de cerdo (saïm en mallorquín, de donde viene el nombre). Se espolvorea con azúcar glas.",
     "origin": "",
     "fact": "",
-    "tags": ["bollería", "desayuno"],
+    "tags": [
+      "bollería",
+      "desayuno"
+    ],
     "photo": null,
     "recipe": null,
     "draft": false
