@@ -1,0 +1,25 @@
+{
+  "name": "sobremesa",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "admin:dev": "astro build && wrangler pages dev dist --port 8788"
+  },
+  "dependencies": {
+    "@fontsource-variable/atkinson-hyperlegible-mono": "^5.3.0",
+    "@fontsource-variable/atkinson-hyperlegible-next": "^5.3.0",
+    "@fontsource/gloock": "^5.3.0",
+    "@fontsource/instrument-sans": "^5.3.0",
+    "astro": "^7.4.12",
+    "aws4fetch": "^1.0.20"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261116.1",
+    "@types/node": "^26.6.6",
+    "typescript": "^7.0.2",
+    "wrangler": "^4.163.0"
+  }
+}

@@ -1,0 +1,121 @@
+/* Azulejo: cobalt and ochre on tile white, with a tile border as the
+   header. Light by default; the dark theme is a night-blue glaze. */
+:root {
+  --bg: #fbfbf8;
+  --ink: #1b2f8f;
+  --ink-soft: #4b5a9c;
+  --ochre: #e0a526;
+  --text: #1d2233;
+  --muted: #555b6e;
+  --soft: #e8ecf8;
+  --note: #fdf6e3;
+  --line: #d5dbee;
+  --display: "Gloock", Georgia, serif;
+  --sans: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --gutter: max(20px, env(safe-area-inset-left, 0px));
+  --gutter-r: max(20px, env(safe-area-inset-right, 0px));
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1530;
+    --ink: #9db0ff;
+    --ink-soft: #b5c2f5;
+    --ochre: #e8b445;
+    --text: #e6e9f5;
+    --muted: #a6adc6;
+    --soft: #1a2350;
+    --note: #2a2414;
+    --line: #27315f;
+    color-scheme: dark;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 17px; line-height: 1.6; }
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--ink); text-underline-offset: 3px; }
+a:focus-visible { outline: 2px solid var(--ochre); outline-offset: 2px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 400; color: var(--ink); line-height: 1.05; margin: 0; text-wrap: balance; }
+
+.tiles {
+  height: 56px;
+  --t: var(--ink);
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(circle at 50% 50%, var(--ochre) 0 5px, transparent 6px),
+    radial-gradient(circle at 0 0, var(--t) 0 14px, transparent 15px),
+    radial-gradient(circle at 100% 0, var(--t) 0 14px, transparent 15px),
+    radial-gradient(circle at 0 100%, var(--t) 0 14px, transparent 15px),
+    radial-gradient(circle at 100% 100%, var(--t) 0 14px, transparent 15px),
+    linear-gradient(45deg, transparent 46%, var(--t) 47% 53%, transparent 54%),
+    linear-gradient(-45deg, transparent 46%, var(--t) 47% 53%, transparent 54%);
+  background-size: 56px 56px;
+}
+.tiles.thin { height: 28px; background-size: 28px 28px; }
+
+.page { max-width: 1080px; margin: 0 auto; padding: 32px var(--gutter-r) 72px var(--gutter); display: grid; gap: 48px; }
+.top { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+.brand { font-family: var(--display); font-size: 28px; color: var(--ink); text-decoration: none; }
+.top nav { display: flex; gap: 20px; font-weight: 600; font-size: 15px; }
+.top nav a { text-decoration: none; }
+.top nav a:hover { text-decoration: underline; }
+
+.kicker { font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink); font-weight: 600; }
+.lede { margin: 0; max-width: 46ch; font-size: 19px; }
+.hero { display: grid; gap: 16px; }
+.hero h1 { font-size: clamp(48px, 9vw, 96px); }
+
+.regions { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; }
+.regions a { display: flex; justify-content: space-between; gap: 8px; padding: 12px 14px; background: var(--soft); text-decoration: none; font-weight: 600; font-size: 15px; border-radius: 4px; }
+.regions a:hover { outline: 2px solid var(--ink); outline-offset: -2px; }
+.regions a b { font-weight: 500; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.regions a.empty { opacity: .55; }
+
+section { display: grid; gap: 20px; }
+section > h2 { font-size: 32px; }
+
+.dishes { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px 20px; }
+.dish { display: grid; gap: 6px; align-content: start; text-decoration: none; color: var(--text); }
+.dish .ph { aspect-ratio: 4 / 3; background: var(--soft); border-radius: 4px; overflow: hidden; }
+.dish .ph img { width: 100%; height: 100%; object-fit: cover; }
+.dish .ph.none { display: grid; place-items: center; }
+.dish .ph.none span { font-family: var(--display); font-size: 40px; color: var(--ink); opacity: .35; }
+.dish h3 { font-size: 24px; margin-top: 6px; }
+.dish p { margin: 0; font-size: 15px; color: var(--muted); }
+.dish:hover h3 { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+
+.meta { display: flex; flex-wrap: wrap; gap: 6px; }
+.meta span, .meta a { font-size: 14px; padding: 2px 12px; border: 1.5px solid var(--ink); color: var(--ink); border-radius: 999px; text-decoration: none; }
+
+.letters { display: grid; gap: 0; columns: 3 220px; column-gap: 32px; }
+.letters a { display: block; padding: 4px 0; text-decoration: none; break-inside: avoid; }
+.letters a:hover { text-decoration: underline; }
+.letters small { color: var(--muted); font-size: 13px; margin-left: 6px; }
+
+/* A dish */
+.ficha { display: grid; gap: 28px; }
+.ficha header { display: grid; gap: 14px; }
+.ficha h1 { font-size: clamp(48px, 8vw, 88px); }
+.ficha .photo { border-radius: 4px; overflow: hidden; background: var(--soft); }
+.ficha .body { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 40px; }
+@media (max-width: 760px) { .ficha .body { grid-template-columns: 1fr; gap: 28px; } }
+.ficha .text { display: grid; gap: 24px; align-content: start; }
+.ficha h2 { font-size: 26px; margin-bottom: 6px; }
+.ficha p { margin: 0; max-width: 65ch; }
+.say { border-left: 4px solid var(--ochre); padding: 10px 16px; background: var(--note); }
+.recipe { display: grid; gap: 20px; align-content: start; background: var(--soft); padding: 24px; border-radius: 4px; }
+.recipe .facts { display: flex; gap: 20px; font-size: 14px; color: var(--muted); }
+.recipe .facts b { color: var(--ink); font-weight: 600; }
+.recipe ul, .recipe ol { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+.recipe ol li::marker { color: var(--ink); font-weight: 600; }
+
+
+
+@media (max-width: 520px) {
+  body { font-size: 16px; }
+  .page { gap: 36px; padding-top: 24px; }
+  .recipe { padding: 18px; }
+}
+.recipe h3.kicker { font-family: var(--sans); line-height: 1.4; margin-bottom: 6px; }
+.top.home { justify-content: flex-end; }

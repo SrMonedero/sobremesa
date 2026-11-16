@@ -1,0 +1,23 @@
+---
+import Base from '../../layouts/Base.astro';
+import DishCard from '../../components/DishCard.astro';
+import { regions, dishesIn, type Region } from '../../lib/site';
+
+export function getStaticPaths() {
+  return regions.map((r) => ({ params: { slug: r.slug }, props: { region: r } }));
+}
+const { region } = Astro.props as { region: Region };
+const list = dishesIn(region.slug);
+---
+<Base title={region.name} description={region.intro || `Platos típicos de ${region.name}.`}>
+  <div class="hero">
+    <span class="kicker">Región · {list.length} {list.length === 1 ? 'plato' : 'platos'}</span>
+    <h1>{region.name}</h1>
+    {region.intro && <p class="lede">{region.intro}</p>}
+  </div>
+  {list.length ? (
+    <div class="dishes">{list.map((d) => <DishCard dish={d} />)}</div>
+  ) : (
+    <p class="lede">Todavía no hay platos de {region.name}.</p>
+  )}
+</Base>

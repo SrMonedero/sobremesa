@@ -1,0 +1,39 @@
+---
+import '@fontsource/gloock/400.css';
+import '@fontsource/instrument-sans/400.css';
+import '@fontsource/instrument-sans/600.css';
+import '../styles/site.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  home?: boolean;
+}
+const { home = false, title, description = 'Glosario de platos españoles, región a región: qué son, de dónde vienen y cómo se hacen.', image } = Astro.props;
+const full = title ? `${title} · Sobremesa` : 'Sobremesa';
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{full}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={full} />
+    <meta property="og:description" content={description} />
+    {image && <meta property="og:image" content={image} />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <div class="tiles" aria-hidden="true"></div>
+    <div class="page">
+      <div class={home ? 'top home' : 'top'}>
+        {!home && <a class="brand" href="/">Sobremesa</a>}
+        <nav><a href="/#regiones">Regiones</a><a href="/#platos">Platos</a></nav>
+      </div>
+      <slot />
+    </div>
+    <div class="tiles thin" aria-hidden="true"></div>
+  </body>
+</html>

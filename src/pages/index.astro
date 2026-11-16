@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import DishCard from '../components/DishCard.astro';
+import { dishes, regions, dishesIn, regionNames } from '../lib/site';
+
+const withPhoto = dishes.filter((d) => d.photo);
+const featured = (withPhoto.length >= 3 ? withPhoto : dishes).slice(0, 6);
+---
+<Base home>
+  <div class="hero">
+    <h1>Sobremesa</h1>
+    <p class="lede">Glosario de platos españoles, región a región: qué son, de dónde vienen y cómo se hacen.</p>
+  </div>
+
+  <section id="regiones">
+    <h2>Regiones</h2>
+    <div class="regions">
+      {regions.map((r) => {
+        const n = dishesIn(r.slug).length;
+        return <a href={`/region/${r.slug}/`} class={n ? '' : 'empty'}>{r.name} <b>{n}</b></a>;
+      })}
+    </div>
+  </section>
+
+  <section>
+    <h2>Para empezar</h2>
+    <div class="dishes">{featured.map((d) => <DishCard dish={d} />)}</div>
+  </section>
+
+  <section id="platos">
+    <h2>Todos los platos</h2>
+    <div class="letters">
+      {dishes.map((d) => <a href={`/plato/${d.slug}/`}>{d.name}<small>{regionNames(d).join(', ')}</small></a>)}
+    </div>
+  </section>
+</Base>

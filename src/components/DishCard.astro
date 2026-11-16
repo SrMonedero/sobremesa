@@ -1,0 +1,14 @@
+---
+import { KINDS, photoUrl, photoSrcset, regionNames, type Dish } from '../lib/site';
+const { dish } = Astro.props as { dish: Dish };
+---
+<a class="dish" href={`/plato/${dish.slug}/`}>
+  {dish.photo ? (
+    <div class="ph"><img src={photoUrl(dish.photo, 800)} srcset={photoSrcset(dish.photo)} sizes="(max-width: 600px) 100vw, 340px" alt={dish.photo.alt} width={dish.photo.w} height={dish.photo.h} loading="lazy" /></div>
+  ) : (
+    <div class="ph none" aria-hidden="true"><span>{dish.name.charAt(0)}</span></div>
+  )}
+  <span class="kicker">{regionNames(dish).join(' · ')} · {KINDS[dish.kind]}</span>
+  <h3>{dish.name}</h3>
+  <p>{dish.summary}</p>
+</a>

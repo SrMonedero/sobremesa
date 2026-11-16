@@ -1,0 +1,52 @@
+---
+import Base from '../../layouts/Base.astro';
+import { dishes, KINDS, region, photoUrl, photoSrcset, type Dish } from '../../lib/site';
+
+export function getStaticPaths() {
+  return dishes.map((d) => ({ params: { slug: d.slug }, props: { dish: d } }));
+}
+const { dish } = Astro.props as { dish: Dish };
+const places = dish.regions.map((s) => region(s)).filter((r) => r !== undefined);
+const r = dish.recipe;
+---
+<Base title={dish.name} description={dish.summary} image={dish.photo ? photoUrl(dish.photo, 1600) : undefined}>
+  <article class="ficha">
+    <header>
+      <span class="kicker">{places.map((p) => p.name).join(' · ')}{dish.place && ` · ${dish.place}`} · {KINDS[dish.kind]}</span>
+      <h1>{dish.name}</h1>
+      <p class="lede">{dish.summary}</p>
+      {(places.length > 0 || dish.tags.length > 0) && (
+        <div class="meta">
+          {places.map((p) => <a href={`/region/${p.slug}/`}>{p.name}</a>)}
+          {dish.tags.map((t) => <span>{t}</span>)}
+        </div>
+      )}
+    </header>
+
+    {dish.photo && (
+      <div class="photo"><img src={photoUrl(dish.photo, 1600)} srcset={photoSrcset(dish.photo)} sizes="(max-width: 1100px) 100vw, 1040px" alt={dish.photo.alt} width={dish.photo.w} height={dish.photo.h} /></div>
+    )}
+
+    <div class="body">
+      <div class="text">
+        {dish.description && <div><h2>Qué es</h2><p>{dish.description}</p></div>}
+        {dish.origin && <div><h2>De dónde viene</h2><p>{dish.origin}</p></div>}
+        {dish.fact && <p class="say">{dish.fact}</p>}
+      </div>
+      {r && (
+        <aside class="recipe">
+          <h2>Receta</h2>
+          {(r.serves || r.time) && (
+            <div class="facts">
+              {r.serves && <span><b>{r.serves}</b> raciones</span>}
+              {r.time && <span><b>{r.time}</b></span>}
+            </div>
+          )}
+          {r.ingredients.length > 0 && <div><h3 class="kicker">Ingredientes</h3><ul>{r.ingredients.map((i) => <li>{i}</li>)}</ul></div>}
+          {r.steps.length > 0 && <div><h3 class="kicker">Pasos</h3><ol>{r.steps.map((s) => <li>{s}</li>)}</ol></div>}
+          {r.notes && <p>{r.notes}</p>}
+        </aside>
+      )}
+    </div>
+  </article>
+</Base>
