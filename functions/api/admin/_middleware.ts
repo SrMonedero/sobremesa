@@ -41,7 +41,10 @@ async function verify(token: string, env: Env): Promise<string | null> {
 
 export const onRequest = async (ctx: { request: Request; env: Env; data: Record<string, unknown>; next: () => Promise<Response> }) => {
   const { hostname } = new URL(ctx.request.url);
-  if (ctx.env.ACCESS_DEV_EMAIL && (hostname === 'localhost' || hostname === '127.0.0.1')) {
+  // On Quique's Mac the admin is open on localhost only: anything that came
+  // through Cloudflare (the tunnel) carries Cf-Ray and still needs Access.
+  const local = (hostname === 'localhost' || hostname === '127.0.0.1') && !ctx.request.headers.has('Cf-Ray');
+  if (ctx.env.ACCESS_DEV_EMAIL && local) {
     ctx.data.email = ctx.env.ACCESS_DEV_EMAIL;
     return ctx.next();
   }
