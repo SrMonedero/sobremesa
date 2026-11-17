@@ -15,7 +15,7 @@ fi
 cd "$REPO"
 git fetch -q origin "$BRANCH"
 target="$(git rev-parse "origin/$BRANCH")"
-built="$(cat "$SITE/published.json" 2>/dev/null | sed -n 's/.*"head": *"\([0-9a-f]*\)".*/\1/p')"
+built="$(sed -n 's/.*"head": *"\([0-9a-f]*\)".*/\1/p' "$SITE/published.json" 2>/dev/null || true)"
 [ "$target" = "$built" ] && exit 0
 
 echo "$(date '+%F %T') building $target"
