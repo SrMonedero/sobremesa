@@ -119,3 +119,7 @@ section > h2 { font-size: 32px; }
 }
 .recipe h3.kicker { font-family: var(--sans); line-height: 1.4; margin-bottom: 6px; }
 .top.home { justify-content: flex-end; }
+
+.beta { display: inline-block; vertical-align: middle; font-family: var(--sans); font-size: 13px; font-weight: 600; line-height: 1; letter-spacing: .1em; text-transform: uppercase; color: var(--text); background: var(--ochre); padding: 5px 8px 4px; border-radius: 3px; position: relative; top: -.15em; }
+.hero h1 .beta { font-size: 15px; top: -1.4em; margin-left: 4px; }
+.beta-note { margin: 0; font-size: 15px; color: var(--muted); }

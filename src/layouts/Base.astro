@@ -29,7 +29,7 @@ const full = title ? `${title} · Sobremesa` : 'Sobremesa';
     <div class="tiles" aria-hidden="true"></div>
     <div class="page">
       <div class={home ? 'top home' : 'top'}>
-        {!home && <a class="brand" href="/">Sobremesa</a>}
+        {!home && <a class="brand" href="/">Sobremesa <span class="beta">Beta</span></a>}
         <nav><a href="/#regiones">Regiones</a><a href="/#platos">Platos</a></nav>
       </div>
       <slot />
