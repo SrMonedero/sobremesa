@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Servidor local de Sobremesa (web, /admin y fotos). Se instala con deploy/local/install.sh -->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>info.quique.sobremesa-web</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Users/xale/Dev/sobremesa/deploy/local/serve.sh</string>
+  </array>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>StandardOutPath</key>
+  <string>/Users/xale/.local/share/sobremesa/logs/web.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/xale/.local/share/sobremesa/logs/web.log</string>
+</dict>
+</plist>

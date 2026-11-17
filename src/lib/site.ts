@@ -31,7 +31,8 @@ export const region = (slug: string) => regions.find((r) => r.slug === slug);
 export const dishesIn = (slug: string) => dishes.filter((d) => d.regions.includes(slug));
 export const regionNames = (d: Dish) => d.regions.map((s) => region(s)?.name ?? s);
 
-const MEDIA = (import.meta.env.PUBLIC_MEDIA_BASE ?? '').replace(/\/$/, '');
-// Each photo is stored at two widths, made in the admin before upload.
+// Each photo is stored at two widths, made in the admin before upload, and
+// served by functions/fotos from the PHOTOS bucket.
+const MEDIA = '/fotos';
 export const photoUrl = (p: Photo, width: 800 | 1600) => `${MEDIA}/${p.key}-${width}.webp`;
 export const photoSrcset = (p: Photo) => `${photoUrl(p, 800)} 800w, ${photoUrl(p, 1600)} 1600w`;

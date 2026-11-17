@@ -308,11 +308,11 @@ async function uploadPhoto(file: File) {
     const sizes = await Promise.all(WIDTHS.map((w) => webp(bitmap, w)));
     photoStatus = 'Subiendo…';
     render();
-    const { key, urls } = await api('photo', { method: 'POST', body: JSON.stringify({ slug }) });
+    const { key } = await api('photo', { method: 'POST', body: JSON.stringify({ slug }) });
     await Promise.all(
       WIDTHS.map(async (w, i) => {
-        const res = await fetch(urls[w], { method: 'PUT', body: sizes[i].blob, headers: { 'Content-Type': 'image/webp' } });
-        if (!res.ok) throw new Error(`La subida ha fallado (${res.status}).`);
+        const res = await fetch(`/api/admin/photo/${key}-${w}.webp`, { method: 'PUT', body: sizes[i].blob, headers: { 'Content-Type': 'image/webp' } });
+        if (!res.ok) throw new Error((await res.json().catch(() => null))?.error ?? `La subida ha fallado (${res.status}).`);
       }),
     );
     const big = sizes[1];

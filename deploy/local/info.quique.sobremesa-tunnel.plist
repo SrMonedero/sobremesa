@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Túnel de Cloudflare para sobremesa.quique.info. Se instala con deploy/local/install.sh -->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>info.quique.sobremesa-tunnel</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/opt/homebrew/bin/cloudflared</string>
+    <string>tunnel</string>
+    <string>--no-autoupdate</string>
+    <string>--config</string>
+    <string>/Users/xale/Dev/sobremesa/deploy/local/tunnel.yml</string>
+    <string>run</string>
+  </array>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>StandardOutPath</key>
+  <string>/Users/xale/.local/share/sobremesa/logs/tunnel.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/xale/.local/share/sobremesa/logs/tunnel.log</string>
+</dict>
+</plist>

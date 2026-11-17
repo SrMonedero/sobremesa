@@ -1,25 +1,30 @@
 // The admin's API. The site's content lives in the repo (src/data/
 // dishes.json and regions.json): reading and saving go through GitHub, and a
 // save is one commit on main, which publishes the site. Photos are resized
-// in the browser and uploaded straight to the media bucket with signed URLs.
+// in the browser and stored in the PHOTOS bucket, which /fotos/ serves.
 //
-//   GET    state     both files and the commit they come from
-//   PUT    state     saves them (409 if main moved on meanwhile)
-//   POST   photo     signed URLs to upload one photo at 800 and 1600 px
-//   GET    runs      the latest Deploy runs
-//   GET    me        who is signed in
-import { AwsClient } from 'aws4fetch';
+//   GET    state         both files and the commit they come from
+//   PUT    state         saves them (409 if main moved on meanwhile)
+//   POST   photo         a new key for one photo
+//   PUT    photo/<file>  stores one width of it (<key>-800.webp, -1600.webp)
+//   GET    runs          the latest publications
+//   GET    me            who is signed in
 
 interface Env {
   GITHUB_TOKEN: string;
   GITHUB_REPO: string; // owner/name
   GITHUB_BRANCH?: string; // main; another branch to try the admin out
-  R2_ACCOUNT_ID: string;
-  R2_ACCESS_KEY_ID: string;
-  R2_SECRET_ACCESS_KEY: string;
-  R2_MEDIA_BUCKET?: string;
-  PUBLIC_MEDIA_BASE: string;
+  PHOTOS: R2Bucket;
+  ASSETS: { fetch: (input: string | Request) => Promise<Response> };
+  // Served from Quique's Mac: the site is rebuilt there, not by GitHub
+  // Actions, and the build says which commit it is in /published.json.
+  LOCAL_PUBLISH?: string;
 }
+
+type R2Bucket = {
+  get(key: string): Promise<{ body: ReadableStream; httpMetadata?: { contentType?: string } } | null>;
+  put(key: string, value: ReadableStream | ArrayBuffer, options?: { httpMetadata?: { contentType?: string } }): Promise<unknown>;
+};
 
 type Ctx = { request: Request; env: Env; data: { email?: string }; params: { path?: string[] } };
 
@@ -28,6 +33,8 @@ const SLUG = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const KINDS = ['plato', 'tapa', 'tecnica', 'dulce', 'bebida', 'producto'];
 const TEXT_FIELDS = ['name', 'place', 'summary', 'description', 'origin', 'fact'] as const;
 const PHOTO_KEY = /^platos\/[a-z0-9-]+\/\d+$/;
+const PHOTO_FILE = /^(platos\/[a-z0-9-]+\/\d+)-(800|1600)\.webp$/;
+const MAX_PHOTO = 8 * 1024 * 1024;
 
 class HttpError extends Error {
   constructor(public status: number, message: string) {
@@ -63,7 +70,7 @@ async function readState(env: Env) {
       return [name, JSON.parse(text)];
     }),
   );
-  return { head: sha, mediaBase: env.PUBLIC_MEDIA_BASE, ...Object.fromEntries(entries) };
+  return { head: sha, mediaBase: '/fotos', ...Object.fromEntries(entries) };
 }
 
 const isStrings = (v: unknown) => Array.isArray(v) && v.every((s) => typeof s === 'string');
@@ -122,22 +129,27 @@ async function saveState(env: Env, body: any, email: string) {
   return { head: created.sha };
 }
 
-const r2 = (env: Env) => new AwsClient({ accessKeyId: env.R2_ACCESS_KEY_ID, secretAccessKey: env.R2_SECRET_ACCESS_KEY, service: 's3', region: 'auto' });
-
-async function photoUrls(env: Env, body: any) {
+function newPhoto(body: any) {
   if (!SLUG.test(body?.slug ?? '')) throw new HttpError(400, 'Plato no válido');
   // A new key for every photo, so a replaced photo never shows from a cache.
-  const key = `platos/${body.slug}/${Date.now()}`;
-  const sign = async (width: number) => {
-    const url = new URL(`https://${env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com/${env.R2_MEDIA_BUCKET ?? 'sobremesa-media'}/${key}-${width}.webp`);
-    url.searchParams.set('X-Amz-Expires', '3600');
-    const signed = await r2(env).sign(new Request(url, { method: 'PUT', headers: { 'Content-Type': 'image/webp' } }), { aws: { signQuery: true } });
-    return signed.url;
-  };
-  return { key, urls: { 800: await sign(800), 1600: await sign(1600) } };
+  return { key: `platos/${body.slug}/${Date.now()}` };
+}
+
+async function putPhoto(env: Env, file: string, request: Request) {
+  if (!PHOTO_FILE.test(file)) throw new HttpError(400, 'Foto no válida');
+  if (request.headers.get('Content-Type') !== 'image/webp') throw new HttpError(400, 'La foto tiene que ser WEBP');
+  const data = await request.arrayBuffer();
+  if (!data.byteLength || data.byteLength > MAX_PHOTO) throw new HttpError(400, 'La foto pesa demasiado');
+  await env.PHOTOS.put(file, data, { httpMetadata: { contentType: 'image/webp' } });
+  return { ok: true };
 }
 
 async function runs(env: Env) {
+  if (env.LOCAL_PUBLISH) {
+    const res = await env.ASSETS.fetch('http://local/published.json');
+    const head = res.ok ? ((await res.json()) as { head: string }).head : '';
+    return [{ id: 0, title: 'Mac', status: 'completed', conclusion: 'success', created: '', updated: '', head }];
+  }
   const data = (await github(env, `/actions/runs?per_page=10&branch=${branch(env)}`)) as any;
   return data.workflow_runs
     .filter((r: any) => r.name === 'Deploy')
@@ -146,12 +158,14 @@ async function runs(env: Env) {
 
 export const onRequest = async ({ request, env, data, params }: Ctx) => {
   const route = (params.path ?? []).join('/');
-  const body = ['POST', 'PUT'].includes(request.method) ? await request.json().catch(() => null) : null;
+  const isPhoto = route.startsWith('photo/');
+  const body = ['POST', 'PUT'].includes(request.method) && !isPhoto ? await request.json().catch(() => null) : null;
   try {
     let out: unknown;
     if (route === 'state' && request.method === 'GET') out = await readState(env);
     else if (route === 'state' && request.method === 'PUT') out = await saveState(env, body, data.email!);
-    else if (route === 'photo' && request.method === 'POST') out = await photoUrls(env, body);
+    else if (route === 'photo' && request.method === 'POST') out = newPhoto(body);
+    else if (isPhoto && request.method === 'PUT') out = await putPhoto(env, route.slice('photo/'.length), request);
     else if (route === 'runs' && request.method === 'GET') out = await runs(env);
     else if (route === 'me' && request.method === 'GET') out = { email: data.email };
     else throw new HttpError(404, 'No existe');

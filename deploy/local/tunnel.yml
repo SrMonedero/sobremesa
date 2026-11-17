@@ -1,0 +1,12 @@
+# Cloudflare tunnel "sobremesa": sobremesa.quique.info → the site served from
+# Quique's Mac. Only the public site goes out: the admin and its API answer
+# on localhost alone (there is no Access in front of them here).
+tunnel: 497b2a9e-d1df-47e1-b973-e3f08a8b2558
+credentials-file: /Users/xale/.cloudflared/497b2a9e-d1df-47e1-b973-e3f08a8b2558.json
+ingress:
+  - hostname: sobremesa.quique.info
+    path: ^/(admin|api)(/|$)
+    service: http_status:404
+  - hostname: sobremesa.quique.info
+    service: http://127.0.0.1:4380
+  - service: http_status:404

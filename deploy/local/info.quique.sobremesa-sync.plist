@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Trae los cambios del admin y reconstruye la web cada 20 segundos. Se instala con deploy/local/install.sh -->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>info.quique.sobremesa-sync</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Users/xale/Dev/sobremesa/deploy/local/sync.sh</string>
+  </array>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>StartInterval</key>
+  <integer>20</integer>
+  <key>StandardOutPath</key>
+  <string>/Users/xale/.local/share/sobremesa/logs/sync.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/xale/.local/share/sobremesa/logs/sync.log</string>
+</dict>
+</plist>
